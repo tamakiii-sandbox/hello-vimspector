@@ -54,7 +54,11 @@ deps:
 ~/.vim:
 	[ -d $@ ] || mkdir -p $@
 
+/etc/php/7.3/cli/conf.d/30-xdebug.ini: xdebug.ini
+	ln -sfnv $(realpath $<) $@
+
 clean:
 	rm -rf ~/.vimrc
 	rm -rf ~/.vim/autoload/plug.vim
 	rm -rf ~/.vim/plugged
+	rm -rf a.out
