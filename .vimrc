@@ -11,38 +11,43 @@ set noshowmode
 set nocompatible
 
 set number
+set hlsearch
+set backspace=indent,eol,start
 
 call plug#begin('~/.vim/plugged')
 Plug 'puremourning/vimspector'
 call plug#end()
 
+" Key            | Function                                                    | API
+" ---------------|-------------------------------------------------------------|-----------------------------------------------
+" F5             | When debugging, continue. Otherwise start debugging.        | vimspector#Continue()
+" Shift F5       | Stop debugging.                                             | vimspector#Stop()
+" Ctrl Shift F5  | Restart debugging with the same configuration.              | vimspector#Restart()
+" F6             | Pause debugee.                                              | vimspector#Pause()
+" F9             | Toggle line breakpoint on the current line.                 | vimspector#ToggleBreakpoint()
+" Shift F9       | Add a function breakpoint for the expression under cursor   | vimspector#AddFunctionBreakpoint( '<cexpr>' )
+" F10            | Step Over                                                   | vimspector#StepOver()
+" F11            | Step Into                                                   | vimspector#StepInto()
+" Shift F11      | Step out of current function scope                          | vimspector#StepOut()
+" # https://github.com/puremourning/vimspector#visual-studio--vscode
 let g:vimspector_install_gadgets = [ 'vscode-cpptools', 'CodeLLDB' ]
-" func! CustomiseUI()
-"   call win_gotoid( g:vimspector_session_windows.code )
-"   " Clear the existing WinBar created by Vimspector
-"   nunmenu WinBar
-"   " " Cretae our own WinBar
-"   " nnoremenu WinBar.Kill :call vimspector#Stop()<CR>
-"   " nnoremenu WinBar.Continue :call vimspector#Continue()<CR>
-"   " nnoremenu WinBar.Pause :call vimspector#Pause()<CR>
-"   " nnoremenu WinBar.Step\ Over  :call vimspector#StepOver()<CR>
-"   " nnoremenu WinBar.Step\ In :call vimspector#StepInto()<CR>
-"   " nnoremenu WinBar.Step\ Out :call vimspector#StepOut()<CR>
-"   " nnoremenu WinBar.Restart :call vimspector#Restart()<CR>
-"   " nnoremenu WinBar.Exit :call vimspector#Reset()<CR>
-" endfunction
-" 
-" augroup MyVimspectorUICustomistaion
-"   autocmd!
-"   autocmd User VimspectorUICreated call s:CustomiseUI()
-" augroup END
-
+let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 let g:vimspector_sidebar_width = 80
 let g:vimspector_code_minwidth = 85
 let g:vimspector_terminal_minwidth = 75
 
+sign define vimspectorBP text=@          texthl=WarningMsg
+sign define vimspectorBPCond text=@?     texthl=WarningMsg
+sign define vimspectorBPDisabled text=@! texthl=LineNr
+sign define vimspectorPC text=\ >        texthl=MatchParen
+sign define vimspectorPCBP text=@>       texthl=MatchParen
+
 function! s:CustomiseUI()
   " Customise the basic UI...
+  call win_gotoid( g:vimspector_session_windows.code )
+  nunmenu WinBar
+
+  call win_gotoid( g:vimspector_session_windows.watches )
   nunmenu WinBar
 
   " Close the output window
