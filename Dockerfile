@@ -13,6 +13,8 @@ RUN apt-get update && \
       make \
       curl \
       git \
+      php \
+      nodejs \
       less \
       man \
       manpages \
