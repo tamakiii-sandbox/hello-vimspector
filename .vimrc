@@ -46,6 +46,7 @@ function! s:CustomiseUI()
   " Customise the basic UI...
   call win_gotoid( g:vimspector_session_windows.code )
   nunmenu WinBar
+  wincmd H
 
   call win_gotoid( g:vimspector_session_windows.watches )
   nunmenu WinBar
