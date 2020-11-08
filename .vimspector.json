@@ -36,7 +36,7 @@
       "configuration": {
         "name": "Launch currently open script",
         "type": "php",
-        "args": [
+        "runtimeArgs": [
           "-d xdebug.remote_autostart=1",
           "-d xdebug.remote_enable=1",
           "-d xdebug.idekey=xdebug",
